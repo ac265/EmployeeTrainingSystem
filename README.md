@@ -56,52 +56,193 @@ The applications use separate databases and communicate exclusively through REST
 - Composer
 - PostgreSQL
 
-## Installation
+## Installation Employee Management System
 
-### Prerequisites
-- PHP 8.4.24
-- Laravel 13.40.0
+### Requirements
+- PHP
 - Composer
 - PostgreSQL
+- Laravel
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
+```bash
 git clone https://github.com/ac265/EmployeeTrainingSystem.git
-cd EmployeeTrainingSystem
-
-### 2. Set up Employee API
-
 cd employee_api_app
+```
+
+### 2. Configure PHP Path (Laravel Herd)
+
+If PHP is installed through Laravel Herd, run the following command in PowerShell:
+
+```powershell
+$env:Path = "$env:USERPROFILE\.config\herd\bin;" + $env:Path
+```
+
+### 3. Install Dependencies
+
+```bash
 composer install
-cp .env.example .env
+```
+
+### 4. Environment Configuration
+
+Create your environment file:
+
+```bash
+copy .env.example .env
+```
+
+Generate the application key:
+
+```bash
 php artisan key:generate
+```
 
-Configure the PostgreSQL database and API token in `.env`.
+### 5. Create the PostgreSQL Database
 
+Create a PostgreSQL database named `employee_management`.
+
+You can create the database using pgAdmin:
+
+1. Open pgAdmin.
+2. Connect to your PostgreSQL server.
+3. Right-click **Databases**.
+4. Select **Create → Database**.
+5. Enter `employee_management` as the database name.
+6. Save.
+
+Alternatively, execute the following SQL command:
+
+```sql
+CREATE DATABASE employee_management;
+```
+
+### 6. Configure Database Connection
+
+Update the database settings in the `.env` file:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=employee_management
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+```
+
+Replace `your_password` with your PostgreSQL password.
+
+### 7. Run Database Migrations
+
+Create the database tables:
+
+```bash
 php artisan migrate
+```
 
-### 3. Set up Training Portal
+### 8. Start the Application
 
-cd ../training_portal_app
-composer install
-cp .env.example .env
-php artisan key:generate
-
-Configure the PostgreSQL database and Employee API settings in `.env`.
-
-php artisan migrate
-
-### 4. Run the applications
-
-Start Employee API:
-
-cd employee_api_app
+```bash
 php artisan serve --port=8000
+```
 
-Start Training Portal in another terminal:
+The application will be available at:
 
-cd training_portal_app
+`http://127.0.0.1:8000`
+
+## Installation Training Management System
+
+### Requirements
+- PHP
+- Composer
+- PostgreSQL
+- Laravel
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/ac265/EmployeeTrainingSystem. (same folder not install again)
+cd training_api_app
+```
+
+### 2. Configure PHP Path (Laravel Herd)
+
+If PHP is installed through Laravel Herd, run the following command in PowerShell:
+
+```powershell
+$env:Path = "$env:USERPROFILE\.config\herd\bin;" + $env:Path
+```
+
+### 3. Install Dependencies
+
+```bash
+composer install
+```
+
+### 4. Environment Configuration
+
+Create the `.env` file:
+
+```bash
+copy .env.example .env
+```
+
+Generate the application key:
+
+```bash
+php artisan key:generate
+```
+
+### 5. Create PostgreSQL Database
+
+Create a PostgreSQL database named `training_management`.
+
+You can create it using pgAdmin:
+
+1. Open pgAdmin.
+2. Connect to your PostgreSQL server.
+3. Right-click **Databases**.
+4. Select **Create → Database**.
+5. Enter `training_management`.
+6. Save.
+
+Alternatively, execute:
+
+```sql
+CREATE DATABASE training_management;
+```
+
+### 6. Configure Database Connection
+
+Update your `.env` file:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=training_management
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+```
+
+Replace `your_password` with your PostgreSQL password.
+
+### 7. Run Migrations
+
+```bash
+php artisan migrate
+```
+
+### 8. Start the Application
+
+```bash
 php artisan serve --port=8001
+```
+
+The application will be available at:
+
+`http://127.0.0.1:8001`
 
 ## Running the Applications
 
@@ -150,7 +291,7 @@ EmployeeTrainingSystem/
 ![Training Management](screenshots/training-management.png)
 
 ### Training Employees
-![Training Employees](screenshots/training-emplooyes.png)
+![Training Employees](screenshots/training-employees.png)
 
 ### Training Assignments
 ![Training Assignments](screenshots/training-assignments.png)
