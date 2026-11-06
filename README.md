@@ -1,230 +1,163 @@
-# Employee Training System
+# Employee Training Management System
 
-## 1. Employee Management System
+A two-application system developed with Laravel and PostgreSQL to manage employees, trainings, and training assignments.
 
-It is employee_api_app.
+## Architecture
 
-A RESTful API-based Employee Management System developed with **PHP, Laravel, and PostgreSQL**.
+The project consists of two independent Laravel applications:
 
-This application manages employee information and provides secure REST API endpoints for integration with an independent Training Portal application.
+### 1. Employee API
+- Manages employee records.
+- Provides RESTful API endpoints for employee CRUD operations.
+- Uses Bearer Token authentication to secure API access.
 
-### Project Overview
+### 2. Training Portal
+- Retrieves employee information through the Employee REST API.
+- Creates, updates, and deletes trainings.
+- Assigns trainings to employees.
+- Tracks training completion status.
 
-The Employee Management System is designed to manage employee records and share employee data with external applications through a REST API.
-
-The system provides:
-- Employee management (Create, Read, Update, Delete).
-- RESTful API endpoints for employee data.
-- Bearer Token authentication for API access.
-- PostgreSQL database integration.
-- A web-based employee management interface.
-
-### Technologies
-
-| Technology | Purpose |
-|---|---|
-| PHP | Backend development |
-| Laravel | MVC framework |
-| PostgreSQL | Database |
-| Eloquent ORM | Database operations |
-| Blade | Server-side views |
-| Bootstrap 5 | UI styling |
-| REST API | System integration |
-| Bearer Token | API authentication |
-
-### Architecture
-
-The Employee Management System operates independently from the Training Portal.
+## System Architecture
 
 ```text
-Employee Management System
-          |
-          v
-     Laravel Backend
-          |
-          v
-      PostgreSQL
-          |
-          v
-       REST API
-          |
-     Bearer Token
-          |
-          v
-     Training Portal
+EmployeeTrainingSystem
+│
+├── employee_api_app/
+│   └── Employee Management
+│       └── PostgreSQL: employee_database
+│
+└── training_portal_app/
+    └── Training Management
+        └── PostgreSQL: training_database
 ```
 
-Each application maintains its own database. Employee information is accessed by the Training Portal through authenticated API requests rather than direct database access.
+The applications use separate databases and communicate exclusively through REST API requests. The Training Portal does not directly access the Employee API database.
 
-### Database Structure
+## Development Environment
 
-#### Employees
+- Visual Studio Code
+- Laravel Herd
+- PostgreSQL
 
-| Column | Type | Description |
-|---|---|---|
-| id | BIGINT | Primary key |
-| first_name | VARCHAR | Employee first name |
-| last_name | VARCHAR | Employee last name |
-| email | VARCHAR | Unique email address |
-| department | VARCHAR | Employee department |
-| created_at | TIMESTAMP | Creation date |
-| updated_at | TIMESTAMP | Last update date |
+## Technologies
 
-### REST API Endpoints
+- PHP 8.4.24
+- Laravel 13.40.0
+- PostgreSQL
+- REST API
+- Laravel HTTP Client
+- Bearer Token Authentication
+- Bootstrap 5
 
-All API endpoints require a valid Bearer Token.
+## Requirements
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/employees` | Retrieve all employees |
-| GET | `/api/employees/{id}` | Retrieve an employee |
-| POST | `/api/employees` | Create an employee |
-| PUT | `/api/employees/{id}` | Update an employee |
-| DELETE | `/api/employees/{id}` | Delete an employee |
+- PHP 8.4.24
+- Laravel 13.40.0
+- Composer
+- PostgreSQL
 
-#### Example Request
+## Installation
 
-**POST** `/api/employees`
+### Prerequisites
+- PHP 8.4.24
+- Laravel 13.40.0
+- Composer
+- PostgreSQL
 
-```json
-{
-    "first_name": "Ozan",
-    "last_name": "Özkurt",
-    "email": "ozan.özkurt@ardicotomotiv.com.tr",
-    "department": "Data Management"
-}
-```
+### 1. Clone the repository
 
-### Example Response
-
-```json
-{
-    "success": true,
-    "message": "Employee created successfully.",
-    "data": {
-        "id": 1,
-    "first_name": "Ozan",
-    "last_name": "Özkurt",
-    "email": "ozan.özkurt@ardicotomotiv.com.tr",
-    "department": "Data Management"
-    }
-}
-```
-
-### Security
-
-The API uses Bearer Token authentication to protect employee data.
-
-Security measures include:
-
-- Token validation through custom Laravel Middleware.
-- Unauthorized requests return HTTP 401.
-- Environment variables are used to store sensitive configuration.
-- Laravel request validation is applied to incoming data.
-- HTTPS is recommended for production environments.
-
-### Installation
-
-#### 1. Clone the repository
-
-```bash
 git clone https://github.com/ac265/EmployeeTrainingSystem.git
+cd EmployeeTrainingSystem
+
+### 2. Set up Employee API
+
 cd employee_api_app
-```
-
-#### 2. Install dependencies
-
-```bash
 composer install
-```
-
-#### 3. Configure environment variables
-
-```bash
 cp .env.example .env
-```
-
-Configure your PostgreSQL database credentials in `.env`:
-
-```env
-APP_NAME="EmployeeAPI"
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://127.0.0.1:8000
-
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=employee_database
-DB_USERNAME=postgres
-DB_PASSWORD=your_database_password
-
-SESSION_DRIVER=file
-
-EMPLOYEE_API_TOKEN=your_secure_random_token
-```
-
-Create the PostgreSQL database named `employee_database` before running migrations.
-
-#### 4. Generate application key
-
-```bash
 php artisan key:generate
-```
 
-#### 5. Run database migrations
+Configure the PostgreSQL database and API token in `.env`.
 
-```bash
 php artisan migrate
-```
 
-#### 6. Start the development server
+### 3. Set up Training Portal
+
+cd ../training_portal_app
+composer install
+cp .env.example .env
+php artisan key:generate
+
+Configure the PostgreSQL database and Employee API settings in `.env`.
+
+php artisan migrate
+
+### 4. Run the applications
+
+Start Employee API:
+
+cd employee_api_app
+php artisan serve --port=8000
+
+Start Training Portal in another terminal:
+
+cd training_portal_app
+php artisan serve --port=8001
+
+## Running the Applications
+
+Start the Employee API:
 
 ```bash
+cd employee_api_app
 php artisan serve --port=8000
 ```
 
-The application will be available at:
+Start the Training Portal in a separate terminal:
 
-`http://127.0.0.1:8000`
-
-### API Authentication
-
-Include the following header in API requests:
-
-```http
-Authorization: Bearer YOUR_API_TOKEN
-Accept: application/json
+```bash
+cd training_portal_app
+php artisan serve --port=8001
 ```
 
-The API token must match the `EMPLOYEE_API_TOKEN` value configured in the environment file.
+## Application URLs
 
-### HTTP Status Codes
+- Employee API: http://127.0.0.1:8000
+- Employee API endpoint: http://127.0.0.1:8000/api/employees
+- Training Portal: http://127.0.0.1:8001
 
-| Status Code | Description |
-|---|---|
-| 200 | Request successful |
-| 201 | Resource created |
-| 401 | Unauthorized |
-| 404 | Resource not found |
-| 422 | Validation error |
+## Security
 
-### Future Improvements
+API communication is protected using Bearer Token authentication. The Employee API validates incoming tokens through middleware. Invalid or missing tokens receive a `401 Unauthorized` response.
 
-- API pagination and filtering.
-- Role-based access control.
-- Employee soft deletion.
-- API rate limiting.
-- Automated feature and integration tests.
-- API documentation with OpenAPI/Swagger.
+Each application has its own environment configuration and database.
 
-### Author
- 
-Full Stack Developer: Ayşenur Akyel
+## Project Structure
 
-Developed as part of a Full Stack Software Developer technical assignment.
+```text
+EmployeeTrainingSystem/
+├── employee_api_app/
+├── training_portal_app/
+├── screenshots
+└── README.md
+```
 
-**Project:** Employee Management System  
-**Backend:** Laravel / PHP  
-**Database:** PostgreSQL
+## Screenshots
+
+### Employee Management
+![Employee Management](screenshots/employee-management.png)
+
+### Training Management
+![Training Management](screenshots/training-management.png)
+
+### Training Employees
+![Training Employees](screenshots/training-emplooyes.png)
+
+### Training Assignments
+![Training Assignments](screenshots/training-assignments.png)
+
+### Training Status
+![Training Status](screenshots/training-status.png)
+
+## Demo
+
+[Watch Project Demo](screenshots/demo.mp4)
