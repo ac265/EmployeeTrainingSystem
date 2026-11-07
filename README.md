@@ -101,7 +101,7 @@ php artisan key:generate
 
 ### 5. Create the PostgreSQL Database
 
-Create a PostgreSQL database named `employee_management`.
+Create a PostgreSQL database named `employee_database`.
 
 You can create the database using pgAdmin:
 
@@ -109,13 +109,13 @@ You can create the database using pgAdmin:
 2. Connect to your PostgreSQL server.
 3. Right-click **Databases**.
 4. Select **Create → Database**.
-5. Enter `employee_management` as the database name.
+5. Enter `employee_database` as the database name.
 6. Save.
 
 Alternatively, execute the following SQL command:
 
 ```sql
-CREATE DATABASE employee_management;
+CREATE DATABASE employee_database;
 ```
 
 ### 6. Configure Database Connection
@@ -126,7 +126,7 @@ Update the database settings in the `.env` file:
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=employee_management
+DB_DATABASE=employee_database
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
 ```
@@ -162,7 +162,7 @@ The application will be available at:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/ac265/EmployeeTrainingSystem. (same folder not install again)
+git clone https://github.com/ac265/EmployeeTrainingSystem. (same folder not clone again)
 cd training_api_app
 ```
 
@@ -196,7 +196,7 @@ php artisan key:generate
 
 ### 5. Create PostgreSQL Database
 
-Create a PostgreSQL database named `training_management`.
+Create a PostgreSQL database named `training_database`.
 
 You can create it using pgAdmin:
 
@@ -204,13 +204,13 @@ You can create it using pgAdmin:
 2. Connect to your PostgreSQL server.
 3. Right-click **Databases**.
 4. Select **Create → Database**.
-5. Enter `training_management`.
+5. Enter `training_database`.
 6. Save.
 
 Alternatively, execute:
 
 ```sql
-CREATE DATABASE training_management;
+CREATE DATABASE training_database;
 ```
 
 ### 6. Configure Database Connection
@@ -221,7 +221,7 @@ Update your `.env` file:
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=training_management
+DB_DATABASE=training_database
 DB_USERNAME=postgres
 DB_PASSWORD=your_password
 ```
